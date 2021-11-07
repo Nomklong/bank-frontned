@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { ProtectRoute } from './ProtectRoute';
+import {useAppSelector} from "../app/hooks";
+import {getToken} from "../app/store/user/userSlice";
 
 export type RouteType = {
   path: string;
@@ -16,14 +18,18 @@ export type RouteType = {
 
 const checkRequireAuth = (
   route: RouteType,
+  token?: string | null
 ): boolean => {
-  return !route.excludeAuth;
+    console.log(!route.excludeAuth && !token);
+    return !route.excludeAuth && !token;
 };
 
 const RouteWithSubRoutes = (route: RouteType): JSX.Element => {
-  const excludeAuth = checkRequireAuth(
-    route,
-  );
+    const token = useAppSelector(getToken);
+    const excludeAuth = checkRequireAuth(
+        route,
+        token
+    );
 
   return (
     <Route

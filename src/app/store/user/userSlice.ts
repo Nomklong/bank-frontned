@@ -1,7 +1,7 @@
-import {createAsyncThunk, createSelector, createSlice} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSelector, createSlice, isAnyOf} from '@reduxjs/toolkit';
 
 import { RootState } from "../../store";
-import { login, LoginType } from "../../apis/login";
+import {login, LoginType, register, RegisterType} from "../../apis/login";
 
 export interface UserState {
     token: string;
@@ -33,6 +33,15 @@ export const asyncLogin = createAsyncThunk(
     }
 );
 
+export const asyncRegister = createAsyncThunk(
+    'login',
+    async (parameters: RegisterType) => {
+        const response = await register(parameters);
+        // The value we return becomes the `fulfilled` action payload
+        return response.data;
+    }
+);
+
 export const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -40,27 +49,40 @@ export const userSlice = createSlice({
         setToken: (state, action) => {
             state.token = action.payload.data.token;
         },
+        resetToken: (state) => {
+            state.token = '';
+        },
+
+        resetStatus: (state) => {
+            state.status = '';
+        },
     },
     extraReducers: builder => {
-        builder.addCase(asyncLogin.fulfilled, (state, action) => {
+        builder.addMatcher(isAnyOf(asyncLogin.fulfilled, asyncRegister.fulfilled), (state, action) => {
             state.status = 'success';
             state.token = action.payload.data.token;
             state.email = action.payload.data.email;
             state.first_name = action.payload.data.first_name;
             state.last_name = action.payload.data.last_name;
+            localStorage.setItem('token', state.token);
         });
 
-        builder.addCase(asyncLogin.rejected, (state, action) => {
+        builder.addMatcher(isAnyOf (asyncLogin.rejected, asyncRegister.rejected), (state, action) => {
             state.status = 'error';
         });
     }
 });
 
-export const { setToken } = userSlice.actions;
+export const { setToken, resetToken, resetStatus } = userSlice.actions;
 
 export const getLoginStatus = createSelector(
     (state: RootState) => state.user,
     user => user.status,
+);
+
+export const getToken = createSelector(
+    (state: RootState) => state.user,
+    user => user.token !== '' ? user.token : localStorage.getItem('token'),
 );
 
 // The function below is called a selector and allows us to select a value from

@@ -6,7 +6,7 @@ import * as React from 'react';
 import PageHeading from "../../app/component/PageHeading";
 import TextField from "@mui/material/TextField";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
-import {asyncLogin, getLoginStatus} from "../../app/store/user/userSlice";
+import {asyncLogin, getLoginStatus, getToken} from "../../app/store/user/userSlice";
 import {LoginType} from "../../app/apis/login";
 import {useHistory} from "react-router-dom";
 
@@ -15,6 +15,7 @@ export function Login(): React.ReactNode {
     const [password, setPassword] = React.useState('');
     const [pending, setPending] = React.useState(true);
     const loginStatus = useAppSelector(getLoginStatus);
+    const wasSigned = useAppSelector(getToken);
     const dispatch = useAppDispatch();
     const handleLogin = () => {
         setPending(false);
@@ -23,7 +24,7 @@ export function Login(): React.ReactNode {
     const history = useHistory();
 
     React.useEffect(() => {
-        if (loginStatus !== 'success') {
+        if (loginStatus !== 'success' && !wasSigned) {
             return;
         }
 
