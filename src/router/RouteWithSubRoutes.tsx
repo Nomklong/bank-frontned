@@ -20,7 +20,6 @@ const checkRequireAuth = (
   route: RouteType,
   token?: string | null
 ): boolean => {
-    console.log(!route.excludeAuth && !token);
     return !route.excludeAuth && !token;
 };
 

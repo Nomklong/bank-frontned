@@ -15,11 +15,9 @@ export type RegisterType = {
 }
 
 export function login(parameters: LoginType): Promise<AxiosResponse<UserType>> {
-    //TODO wait implement get url from .env
     return apiAxios.post('/login', parameters);
 }
 
 export function register(parameters: RegisterType): Promise<AxiosResponse<UserType>> {
-    //TODO wait implement get url from .env
     return apiAxios.post('/register', parameters);
 }

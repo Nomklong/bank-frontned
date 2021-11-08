@@ -2,12 +2,14 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import counterReducer from '../features/counter/counterSlice';
 import userReducer from '../app/store/user/userSlice';
 import walletReducer from '../app/store/user/walletSlice';
+import transactionReducer from '../app/store/user/transactionSlice';
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
     user: userReducer,
-    wallet: walletReducer
+    wallet: walletReducer,
+    transaction: transactionReducer,
   },
 });
 

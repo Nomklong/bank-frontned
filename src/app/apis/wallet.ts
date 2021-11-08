@@ -11,7 +11,6 @@ export type WalletTransferType = {
     transfer_number: string;
 }
 export async function deposit(parameters: WalletDWType, token: string | null): Promise<AxiosResponse<WalletTransferResponseType>> {
-    //TODO wait implement get url from .env
     return await apiAxios.patch('/deposit', parameters, {
         headers: {
             authorization: `Bearer ${token}`,
@@ -20,7 +19,6 @@ export async function deposit(parameters: WalletDWType, token: string | null): P
 }
 
 export async function withdraw(parameters: WalletDWType, token: string | null): Promise<AxiosResponse<WalletTransferResponseType>> {
-    //TODO wait implement get url from .env
     return await apiAxios.patch('/withdraw', parameters, {
         headers: {
             authorization: `Bearer ${token}`,
@@ -29,7 +27,6 @@ export async function withdraw(parameters: WalletDWType, token: string | null): 
 }
 
 export async function checkBalance(): Promise<AxiosResponse<WalletCheckBalanceType>> {
-    //TODO wait implement get url from .env
     const token = localStorage.getItem('token');
     return await apiAxios.post('/check-balance', {}, {
         headers: {
@@ -40,7 +37,6 @@ export async function checkBalance(): Promise<AxiosResponse<WalletCheckBalanceTy
 
 
 export async function transfer(parameters: WalletTransferType, token: string | null): Promise<AxiosResponse<WalletTransferType>> {
-    //TODO wait implement get url from .env
     return await apiAxios.post('/transfer', parameters, {
         headers: {
             authorization: `Bearer ${token}`,

@@ -15,6 +15,8 @@ import {getBalance} from "../../app/store/user/walletSlice";
 import {resetStatus, resetToken} from "../../app/store/user/userSlice";
 import {useState} from "react";
 import {useHistory} from "react-router-dom";
+import {ReceiveTransaction} from "../../app/component/ReceiveTransaction";
+import {TransferTransaction} from "../../app/component/TransferTransaction";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -112,10 +114,10 @@ export function Profile() {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                Item One
+                <ReceiveTransaction/>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Item Two
+                <TransferTransaction/>
             </TabPanel>
             <TabPanel value={value} index={2}>
                 <Deposit/>
